@@ -671,19 +671,39 @@ function Write-MainMenu {
     Write-Host ("  " + ([char]0x2588).ToString() * 61) -ForegroundColor DarkGreen
     Write-Host ("  " + ([char]0x2588).ToString() * 61) -ForegroundColor Green
 
-    # Creeper face ASCII art
+    # Creeper-style pixel face ASCII art (block grid with black eyes/mouth)
     Write-Host ""
-    Write-Host "        ██████████████    " -ForegroundColor DarkGreen -NoNewline
-    Write-Host "  RAFIEKUNSIMP TOOL SUITE" -ForegroundColor Green
-    Write-Host "      ██████████████████  " -ForegroundColor DarkGreen -NoNewline
-    Write-Host "  github.com/Rafie-kun" -ForegroundColor DarkGray
-    Write-Host "      ████  ██  ████  ██  " -ForegroundColor DarkGreen -NoNewline
-    Write-Host "  Based on luatools by piqseu" -ForegroundColor DarkGray
-    Write-Host "      ████  ██  ████  ██  " -ForegroundColor DarkGreen
-    Write-Host "      ██████████████████  " -ForegroundColor DarkGreen
-    Write-Host "        ████      ████    " -ForegroundColor DarkGreen
-    Write-Host "      ████  ████  ████    " -ForegroundColor DarkGreen
-    Write-Host "      ██████████████████  " -ForegroundColor DarkGreen
+    Write-Host "      " -NoNewline
+    Write-Host "████████████████████" -ForegroundColor DarkGreen -NoNewline
+    Write-Host "    RAFIEKUNSIMP TOOL SUITE" -ForegroundColor Green
+    Write-Host "      " -NoNewline
+    Write-Host "████████████████████" -ForegroundColor DarkGreen -NoNewline
+    Write-Host "    github.com/Rafie-kun" -ForegroundColor DarkGray
+    Write-Host "      " -NoNewline
+    Write-Host "████" -ForegroundColor DarkGreen -NoNewline
+    Write-Host "████" -ForegroundColor Black -NoNewline
+    Write-Host "████" -ForegroundColor DarkGreen -NoNewline
+    Write-Host "████" -ForegroundColor Black -NoNewline
+    Write-Host "████" -ForegroundColor DarkGreen -NoNewline
+    Write-Host "    Based on luatools by piqseu" -ForegroundColor DarkGray
+    Write-Host "      " -NoNewline
+    Write-Host "████" -ForegroundColor DarkGreen -NoNewline
+    Write-Host "████" -ForegroundColor Black -NoNewline
+    Write-Host "████" -ForegroundColor DarkGreen -NoNewline
+    Write-Host "████" -ForegroundColor Black -NoNewline
+    Write-Host "████" -ForegroundColor DarkGreen
+    Write-Host "      " -NoNewline
+    Write-Host "████████████████████" -ForegroundColor DarkGreen
+    Write-Host "      " -NoNewline
+    Write-Host "████████" -ForegroundColor DarkGreen -NoNewline
+    Write-Host "████" -ForegroundColor Black -NoNewline
+    Write-Host "████████" -ForegroundColor DarkGreen
+    Write-Host "      " -NoNewline
+    Write-Host "████" -ForegroundColor DarkGreen -NoNewline
+    Write-Host "████████████" -ForegroundColor Black -NoNewline
+    Write-Host "████" -ForegroundColor DarkGreen
+    Write-Host "      " -NoNewline
+    Write-Host "████████████████████" -ForegroundColor DarkGreen
     Write-Host ""
 
     # ── dirt block separator ──
