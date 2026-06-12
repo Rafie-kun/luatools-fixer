@@ -1,5 +1,13 @@
-# Anyone seeing this? well don't waste time improving this script.
-# It's messy and just temporary until i get the new version.
+# ██████╗  █████╗ ███████╗██╗███████╗██╗  ██╗██╗   ██╗███╗   ██╗███████╗██╗███╗   ███╗██████╗
+# ██╔══██╗██╔══██╗██╔════╝██║██╔════╝██║ ██╔╝██║   ██║████╗  ██║██╔════╝██║████╗ ████║██╔══██╗
+# ██████╔╝███████║█████╗  ██║█████╗  █████╔╝ ██║   ██║██╔██╗ ██║███████╗██║██╔████╔██║██████╔╝
+# ██╔══██╗██╔══██║██╔══╝  ██║██╔══╝  ██╔═██╗ ██║   ██║██║╚██╗██║╚════██║██║██║╚██╔╝██║██╔═══╝
+# ██║  ██║██║  ██║██║     ██║███████╗██║  ██╗╚██████╔╝██║ ╚████║███████║██║██║ ╚═╝ ██║██║
+# ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝╚═╝     ╚═╝╚═╝
+#
+# Tool Suite by Rafiekunsimp | github.com/Rafie-kun
+# Based on luatools by piqseu
+# Credits: waike, Skyflare, SelectivelyGood, Peron, clem.la, melly
 
 param(
     [string]$DownloadLink, # Overwrites the download link (give a direct link)
@@ -9,9 +17,9 @@ param(
 )
 
 ## Configure this
-$Host.UI.RawUI.WindowTitle = "Luatools Tool Suite | .gg/luatools"
+$Host.UI.RawUI.WindowTitle = "Rafiekunsimp Tool Suite | github.com/Rafie-kun"
 $name = "luatools"
-$link = "https://github.com/piqseu/ltsteamplugin/releases/latest/download/ltsteamplugin.zip"
+$link = "https://github.com/Rafie-kun/ltsteamplugin/releases/latest/download/ltsteamplugin.zip"
 $milleniumTimer = 5 # in seconds for auto-installation
 
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
@@ -33,22 +41,23 @@ function Log {
     param ([string]$Type, [string]$Message, [boolean]$NoNewline = $false)
     $Type = $Type.ToUpper()
     switch ($Type) {
-        "OK"    { $fg = "Green" }
-        "INFO"  { $fg = "Cyan" }
-        "ERR"   { $fg = "Red" }
-        "WARN"  { $fg = "Yellow" }
-        "LOG"   { $fg = "Magenta" }
-        "AUX"   { $fg = "DarkGray" }
-        default { $fg = "White" }
+        "OK"    { $fg = "Green";    $icon = "[+]" }
+        "INFO"  { $fg = "Cyan";     $icon = "[*]" }
+        "ERR"   { $fg = "Red";      $icon = "[X]" }
+        "WARN"  { $fg = "Yellow";   $icon = "[!]" }
+        "LOG"   { $fg = "Magenta";  $icon = "[~]" }
+        "AUX"   { $fg = "DarkGray"; $icon = "[.]" }
+        default { $fg = "White";    $icon = "[?]" }
     }
     $date   = Get-Date -Format "HH:mm:ss"
-    $prefix = if ($NoNewline) { "`r[$date] " } else { "[$date] " }
-    Write-Host $prefix -ForegroundColor Cyan -NoNewline
-    Write-Host "[$Type] $(Translate $Message)" -ForegroundColor $fg -NoNewline:$NoNewline
+    $prefix = if ($NoNewline) { "`r $icon [$date] " } else { " $icon [$date] " }
+    Write-Host $prefix -ForegroundColor $fg -NoNewline
+    Write-Host "$(Translate $Message)" -ForegroundColor $fg -NoNewline:$NoNewline
 }
 
-function Sep   { Write-Host ("=" * 63) -ForegroundColor Cyan }
-function Blank { Write-Host "" }
+function Sep     { Write-Host ("  " + ([char]0x2588).ToString() * 61) -ForegroundColor DarkGreen }
+function SepThin { Write-Host ("  " + ([char]0x2593).ToString() * 61) -ForegroundColor Green }
+function Blank   { Write-Host "" }
 
 $SupportedLanguages = [ordered]@{
     en = "English"
@@ -58,11 +67,11 @@ $SupportedLanguages = [ordered]@{
 $script:ScriptLanguage = "en"
 $Translations = @{ 
     en = @{ 
-        "Luatools Tool Suite  |  .gg/luatools" = "  Luatools Tool Suite  |  .gg/luatools"
+        "Rafiekunsimp Tool Suite  |  github.com/Rafie-kun" = "  Rafiekunsimp Tool Suite  |  github.com/Rafie-kun"
         "  INSTALL / UPDATE" = "  INSTALL / UPDATE"
         "  FIXES" = "  FIXES"
         "  OTHER" = "  OTHER"
-        "Install Luatools plugin              " = "Install Luatools plugin              "
+        "Install Rafiekunsimp plugin              " = "Install Rafiekunsimp plugin              "
         "Install steamtools-collection        " = "Install steamtools-collection        "
         "Spacetheme Block Remover             " = "Spacetheme Block Remover             "
         "Removes the 'get a job loser' block  " = "Removes the 'get a job loser' block  "
@@ -72,11 +81,11 @@ $Translations = @{
         "Steam Bulk Fixer" = "Steam Bulk Fixer"
         "Runs various Steam/Steamtools fixes  " = "Runs various Steam/Steamtools fixes  "
         "ST Uninstaller" = "ST Uninstaller"
-        "Full Steamtools/Luatools uninstaller " = "Full Steamtools/Luatools uninstaller "
-        "by Potatoes9411" = "by Potatoes9411"
+        "Full Steamtools/Rafiekunsimp uninstaller " = "Full Steamtools/Rafiekunsimp uninstaller "
+        "by Rafiekunsimp" = "by Rafiekunsimp"
         "Steam Manifest Downloader" = "Steam Manifest Downloader"
         "Downloads depot manifests when       " = "Downloads depot manifests when       "
-        "by Skyflare (Modified by Potatoes9411)" = "by Skyflare (Modified by Potatoes9411)"
+        "by Skyflare (Modified by Rafiekunsimp)" = "by Skyflare (Modified by Rafiekunsimp)"
         "SteamTools servers are unavailable   " = "SteamTools servers are unavailable   "
         "No Internet Connection Fix" = "No Internet Connection Fix"
         "Fixes Steam 'No Internet' errors via " = "Fixes Steam 'No Internet' errors via "
@@ -84,7 +93,7 @@ $Translations = @{
         "CloudRedirectCLI /stfixer            " = "CloudRedirectCLI /stfixer            "
         "Download / Launch CloudRedirect (GUI)" = "Download / Launch CloudRedirect (GUI)"
         "Downloads & launches CloudRedirect   " = "Downloads & launches CloudRedirect   "
-        "by Potatoes9411 | App by SelectivelyGood" = "by Potatoes9411 | App by SelectivelyGood"
+        "by Rafiekunsimp | App by SelectivelyGood" = "by Rafiekunsimp | App by SelectivelyGood"
         "GUI, or runs it if already installed " = "GUI, or runs it if already installed "
         "Millennium & SteamTools Reinstaller" = "Millennium & SteamTools Reinstaller"
         "Reinstalls Millennium + SteamTools,  " = "Reinstalls Millennium + SteamTools,  "
@@ -108,11 +117,11 @@ $Translations = @{
         "Will include language support on THIS script too, luv y'all brazilians" = "Will include language support on THIS script too, luv y'all brazilians"
     }
     es = @{ 
-        "Luatools Tool Suite  |  .gg/luatools" = "  Luatools Tool Suite  |  .gg/luatools"
+        "Rafiekunsimp Tool Suite  |  github.com/Rafie-kun" = "  Rafiekunsimp Tool Suite  |  github.com/Rafie-kun"
         "  INSTALL / UPDATE" = "  INSTALAR / ACTUALIZAR"
         "  FIXES" = "  ARREGLA"
         "  OTHER" = "  OTROS"
-        "Install Luatools plugin" = "Instalar plugin de Luatools"
+        "Install Rafiekunsimp plugin" = "Instalar plugin de Rafiekunsimp"
         "Install steamtools-collection" = "Instalar steamtools-collection"
         "Spacetheme Block Remover" = "Eliminador de bloqueo Spacetheme"
         "Steam Offline Fix" = "Arreglo de Steam sin conexión"
@@ -126,10 +135,10 @@ $Translations = @{
         "Removes the 'get a job loser' block by waike" = "Elimina el bloqueo 'get a job loser' por waike"
         "Fixes Steam stuck on loading icon by waike" = "Corrige Steam atascado en el icono de carga por waike"
         "Runs various Steam/Steamtools fixes by waike" = "Ejecuta varios arreglos de Steam/Steamtools por waike"
-        "Full Steamtools/Luatools uninstaller by Potatoes9411" = "Desinstalador completo de Steamtools/Luatools por Potatoes9411"
-        "Downloads depot manifests when SteamTools servers are unavailable by Skyflare (Modified by Potatoes9411)" = "Descarga manifiestos cuando los servidores de SteamTools no están disponibles por Skyflare (Modificado por Potatoes9411)"
+        "Full Steamtools/Rafiekunsimp uninstaller by Rafiekunsimp" = "Desinstalador completo de Steamtools/Rafiekunsimp por Rafiekunsimp"
+        "Downloads depot manifests when SteamTools servers are unavailable by Skyflare (Modified by Rafiekunsimp)" = "Descarga manifiestos cuando los servidores de SteamTools no están disponibles por Skyflare (Modificado por Rafiekunsimp)"
         "Fixes Steam 'No Internet' errors via Program by SelectivelyGood | Script by Peron CloudRedirectCLI /stfixer" = "Corrige errores de Steam 'Sin Internet' mediante Program by SelectivelyGood | Script by Peron CloudRedirectCLI /stfixer"
-        "Downloads & launches CloudRedirect by Potatoes9411 | App by SelectivelyGood GUI, or runs it if already installed" = "Descarga e inicia CloudRedirect by Potatoes9411 | App by SelectivelyGood GUI, o lo ejecuta si ya está instalado"
+        "Downloads & launches CloudRedirect by Rafiekunsimp | App by SelectivelyGood GUI, or runs it if already installed" = "Descarga e inicia CloudRedirect by Rafiekunsimp | App by SelectivelyGood GUI, o lo ejecuta si ya está instalado"
         "Reinstalls Millennium + SteamTools, by clem.la & melly fixes hardlink errors on reinstall" = "Reinstala Millennium + SteamTools, por clem.la & melly corrige errores de hardlink al reinstalar"
         "Quit" = "Salir"
         "Select an option" = "Selecciona una opción"
@@ -187,11 +196,11 @@ $Translations = @{
         "Cleaning up temp file..." = "Limpiando archivo temporal..."
     }
     pt = @{ 
-        "Luatools Tool Suite  |  .gg/luatools" = "  Luatools Tool Suite  |  .gg/luatools"
+        "Rafiekunsimp Tool Suite  |  github.com/Rafie-kun" = "  Rafiekunsimp Tool Suite  |  github.com/Rafie-kun"
         "  INSTALL / UPDATE" = "  INSTALAR / ATUALIZAR"
         "  FIXES" = "  CORREÇÕES"
         "  OTHER" = "  OUTROS"
-        "Install Luatools plugin" = "Instalar plugin Luatools"
+        "Install Rafiekunsimp plugin" = "Instalar plugin Rafiekunsimp"
         "Install steamtools-collection" = "Instalar steamtools-collection"
         "Spacetheme Block Remover" = "Removedor de bloqueio Spacetheme"
         "Steam Offline Fix" = "Correção de Steam offline"
@@ -205,10 +214,10 @@ $Translations = @{
         "Removes the 'get a job loser' block by waike" = "Remove o bloqueio 'get a job loser' por waike"
         "Fixes Steam stuck on loading icon by waike" = "Corrige Steam preso no ícone de carregamento por waike"
         "Runs various Steam/Steamtools fixes by waike" = "Executa várias correções de Steam/Steamtools por waike"
-        "Full Steamtools/Luatools uninstaller by Potatoes9411" = "Desinstalador completo de Steamtools/Luatools por Potatoes9411"
-        "Downloads depot manifests when SteamTools servers are unavailable by Skyflare (Modified by Potatoes9411)" = "Baixa manifestos quando os servidores do SteamTools não estão disponíveis por Skyflare (Modificado por Potatoes9411)"
+        "Full Steamtools/Rafiekunsimp uninstaller by Rafiekunsimp" = "Desinstalador completo de Steamtools/Rafiekunsimp por Rafiekunsimp"
+        "Downloads depot manifests when SteamTools servers are unavailable by Skyflare (Modified by Rafiekunsimp)" = "Baixa manifestos quando os servidores do SteamTools não estão disponíveis por Skyflare (Modificado por Rafiekunsimp)"
         "Fixes Steam 'No Internet' errors via Program by SelectivelyGood | Script by Peron CloudRedirectCLI /stfixer" = "Corrige erros de Steam 'Sem Internet' via Program by SelectivelyGood | Script by Peron CloudRedirectCLI /stfixer"
-        "Downloads & launches CloudRedirect by Potatoes9411 | App by SelectivelyGood GUI, or runs it if already installed" = "Baixa e inicia CloudRedirect by Potatoes9411 | App by SelectivelyGood GUI, ou o executa se já estiver instalado"
+        "Downloads & launches CloudRedirect by Rafiekunsimp | App by SelectivelyGood GUI, or runs it if already installed" = "Baixa e inicia CloudRedirect by Rafiekunsimp | App by SelectivelyGood GUI, ou o executa se já estiver instalado"
         "Reinstalls Millennium + SteamTools, by clem.la & melly fixes hardlink errors on reinstall" = "Reinstala Millennium + SteamTools, por clem.la & melly corrige erros de hardlink na reinstalação"
         "Quit" = "Sair"
         "Select an option" = "Selecione uma opção"
@@ -547,33 +556,113 @@ function Write-MenuEntry {
 
 function Write-MainMenu {
     Clear-Host
-    Sep
-    WriteLocalized "Luatools Tool Suite  |  .gg/luatools" -ForegroundColor Cyan
-    Sep
-    Blank
 
-    Write-MenuLine "  INSTALL / UPDATE" DarkGray
-    Write-MenuEntry "1" "Install Luatools plugin" (Get-PluginStatus "luatools")
-    Write-MenuEntry "2" "Install steamtools-collection" (Get-PluginStatus "steamtools-collection")
+    # ── Minecraft grass block top bar ──
+    Write-Host ("  " + ([char]0x2588).ToString() * 61) -ForegroundColor DarkGreen
+    Write-Host ("  " + ([char]0x2588).ToString() * 61) -ForegroundColor Green
 
-    Blank
-    Write-MenuLine "  FIXES" DarkGray
-    Write-MenuEntry "3" "Spacetheme Block Remover" (Get-SpacethemeStatus) "Removes the 'get a job loser' block by waike"
-    Write-MenuEntry "4" "Steam Offline Fix" "" "Fixes Steam stuck on loading icon by waike"
-    Write-MenuEntry "6" "Steam Bulk Fixer" "" "Runs various Steam/Steamtools fixes by waike"
+    # Creeper face ASCII art
+    Write-Host ""
+    Write-Host "        ██████████████    " -ForegroundColor DarkGreen -NoNewline
+    Write-Host "  RAFIEKUNSIMP TOOL SUITE" -ForegroundColor Green
+    Write-Host "      ██████████████████  " -ForegroundColor DarkGreen -NoNewline
+    Write-Host "  github.com/Rafie-kun" -ForegroundColor DarkGray
+    Write-Host "      ████  ██  ████  ██  " -ForegroundColor DarkGreen -NoNewline
+    Write-Host "  Based on luatools by piqseu" -ForegroundColor DarkGray
+    Write-Host "      ████  ██  ████  ██  " -ForegroundColor DarkGreen
+    Write-Host "      ██████████████████  " -ForegroundColor DarkGreen
+    Write-Host "        ████      ████    " -ForegroundColor DarkGreen
+    Write-Host "      ████  ████  ████    " -ForegroundColor DarkGreen
+    Write-Host "      ██████████████████  " -ForegroundColor DarkGreen
+    Write-Host ""
 
-    Blank
-    Write-MenuLine "  OTHER" DarkGray
-    Write-MenuEntry "5" "ST Uninstaller" "" "Full Steamtools/Luatools uninstaller by Potatoes9411"
-    Write-MenuEntry "7" "Steam Manifest Downloader" "" "Downloads depot manifests when SteamTools servers are unavailable by Skyflare (Modified by Potatoes9411)"
-    Write-MenuEntry "8" "No Internet Connection Fix" "" "Fixes Steam 'No Internet' errors via Program by SelectivelyGood | Script by Peron CloudRedirectCLI /stfixer"
-    Write-MenuEntry "9" "Download / Launch CloudRedirect (GUI)" "" "Downloads & launches CloudRedirect by Potatoes9411 | App by SelectivelyGood GUI, or runs it if already installed"
-    Write-MenuEntry "10" "Millennium & SteamTools Reinstaller" "" "Reinstalls Millennium + SteamTools, by clem.la & melly fixes hardlink errors on reinstall"
-    Write-MenuEntry "11" "Steamless Game Patcher" "" "Remove Steam DRM from a game using Steamless — interactive GUI, auto-detects game EXE"
+    # ── dirt block separator ──
+    Write-Host ("  " + ([char]0x2593).ToString() * 61) -ForegroundColor Green
 
+    # ── INSTALL / UPDATE section ──
     Blank
-    Write-Host ("  {0,-2}  {1}" -f "L", (Translate "Language / Idioma / Português")) -ForegroundColor Cyan
-    Write-Host ("  {0,-2}  {1}" -f "Q", (Translate "Quit")) -ForegroundColor DarkGray
+    Write-Host "  [" -NoNewline -ForegroundColor DarkGreen
+    Write-Host " INSTALL / UPDATE " -NoNewline -ForegroundColor Green
+    Write-Host "]" -ForegroundColor DarkGreen
+
+    Write-Host "  " -NoNewline
+    Write-Host " 1 " -NoNewline -ForegroundColor Black -BackgroundColor DarkGreen
+    Write-Host "  Install Rafiekunsimp Plugin  " -NoNewline -ForegroundColor White
+    Write-Host (Get-PluginStatus "luatools") -ForegroundColor DarkGray
+
+    Write-Host "  " -NoNewline
+    Write-Host " 2 " -NoNewline -ForegroundColor Black -BackgroundColor DarkGreen
+    Write-Host "  Install steamtools-collection" -NoNewline -ForegroundColor White
+    Write-Host "  " -NoNewline
+    Write-Host (Get-PluginStatus "steamtools-collection") -ForegroundColor DarkGray
+
+    # ── FIXES section ──
+    Blank
+    Write-Host "  [" -NoNewline -ForegroundColor DarkGreen
+    Write-Host " FIXES " -NoNewline -ForegroundColor Yellow
+    Write-Host "]" -ForegroundColor DarkGreen
+
+    Write-Host "  " -NoNewline
+    Write-Host " 3 " -NoNewline -ForegroundColor Black -BackgroundColor Yellow
+    Write-Host "  Spacetheme Block Remover     " -NoNewline -ForegroundColor White
+    Write-Host (Get-SpacethemeStatus) -NoNewline -ForegroundColor DarkGray
+    Write-Host "  by waike" -ForegroundColor DarkGray
+
+    Write-Host "  " -NoNewline
+    Write-Host " 4 " -NoNewline -ForegroundColor Black -BackgroundColor Yellow
+    Write-Host "  Steam Offline Fix            " -NoNewline -ForegroundColor White
+    Write-Host "by waike" -ForegroundColor DarkGray
+
+    Write-Host "  " -NoNewline
+    Write-Host " 6 " -NoNewline -ForegroundColor Black -BackgroundColor Yellow
+    Write-Host "  Steam Bulk Fixer             " -NoNewline -ForegroundColor White
+    Write-Host "by waike" -ForegroundColor DarkGray
+
+    # ── OTHER section ──
+    Blank
+    Write-Host "  [" -NoNewline -ForegroundColor DarkGreen
+    Write-Host " OTHER " -NoNewline -ForegroundColor Cyan
+    Write-Host "]" -ForegroundColor DarkGreen
+
+    Write-Host "  " -NoNewline
+    Write-Host " 5 " -NoNewline -ForegroundColor Black -BackgroundColor Cyan
+    Write-Host "  ST Uninstaller               " -NoNewline -ForegroundColor White
+    Write-Host "by Rafiekunsimp" -ForegroundColor DarkGray
+
+    Write-Host "  " -NoNewline
+    Write-Host " 7 " -NoNewline -ForegroundColor Black -BackgroundColor Cyan
+    Write-Host "  Steam Manifest Downloader    " -NoNewline -ForegroundColor White
+    Write-Host "by Skyflare (modded by Rafiekunsimp)" -ForegroundColor DarkGray
+
+    Write-Host "  " -NoNewline
+    Write-Host " 8 " -NoNewline -ForegroundColor Black -BackgroundColor Cyan
+    Write-Host "  No Internet Connection Fix   " -NoNewline -ForegroundColor White
+    Write-Host "by SelectivelyGood & Peron" -ForegroundColor DarkGray
+
+    Write-Host "  " -NoNewline
+    Write-Host " 9 " -NoNewline -ForegroundColor Black -BackgroundColor Cyan
+    Write-Host "  CloudRedirect GUI            " -NoNewline -ForegroundColor White
+    Write-Host "by SelectivelyGood" -ForegroundColor DarkGray
+
+    Write-Host "  " -NoNewline
+    Write-Host " 10" -NoNewline -ForegroundColor Black -BackgroundColor Cyan
+    Write-Host "  Millennium & ST Reinstaller  " -NoNewline -ForegroundColor White
+    Write-Host "by clem.la & melly" -ForegroundColor DarkGray
+
+    Write-Host "  " -NoNewline
+    Write-Host " 11" -NoNewline -ForegroundColor Black -BackgroundColor Cyan
+    Write-Host "  Steamless Game Patcher       " -NoNewline -ForegroundColor White
+    Write-Host "interactive GUI" -ForegroundColor DarkGray
+
+    # ── bottom bar ──
+    Blank
+    Write-Host ("  " + ([char]0x2593).ToString() * 61) -ForegroundColor Green
+    Write-Host "  " -NoNewline
+    Write-Host " L " -NoNewline -ForegroundColor Black -BackgroundColor DarkGray
+    Write-Host "  Language   " -NoNewline -ForegroundColor DarkGray
+    Write-Host " Q " -NoNewline -ForegroundColor Black -BackgroundColor DarkRed
+    Write-Host "  Quit" -ForegroundColor DarkGray
+    Write-Host ("  " + ([char]0x2588).ToString() * 61) -ForegroundColor DarkGreen
     Blank
 }
 
@@ -726,9 +815,9 @@ if ($Branch -eq 4) {
 }
 
 
-#### Branch 5: ST Uninstaller (by Potatoes9411) ####
+#### Branch 5: ST Uninstaller (by Rafiekunsimp) ####
 if ($Branch -eq 5) {
-    $Host.UI.RawUI.WindowTitle = "Luatools Uninstaller | .gg/luatools"
+    $Host.UI.RawUI.WindowTitle = "Rafiekunsimp Uninstaller | github.com/Rafie-kun"
 
     function Get-SteamPath {
         $entries = @(
@@ -937,9 +1026,15 @@ if ($Branch -eq 5) {
 
     function Write-UninstallMenu {
         Clear-Host
-        Sep
-        Write-Host "  ST Uninstaller  |  .gg/luatools  |  by Potatoes9411" -ForegroundColor Cyan
-        Sep
+        Write-Host ("  " + ([char]0x2588).ToString() * 61) -ForegroundColor DarkGreen
+        Write-Host ("  " + ([char]0x2593).ToString() * 61) -ForegroundColor Green
+        Write-Host ""
+        Write-Host "  [" -NoNewline -ForegroundColor DarkGreen
+        Write-Host " ST UNINSTALLER " -NoNewline -ForegroundColor Red
+        Write-Host "]  " -NoNewline -ForegroundColor DarkGreen
+        Write-Host "by Rafiekunsimp  |  github.com/Rafie-kun" -ForegroundColor DarkGray
+        Write-Host ""
+        Write-Host ("  " + ([char]0x2593).ToString() * 61) -ForegroundColor Green
         Blank
 
         function Checkbox([bool]$on) { if ($on) { "[X]" } else { "[ ]" } }
@@ -1094,18 +1189,18 @@ if ($Branch -eq 6) {
     }
     Log "OK" "DLLs finished."
 
-    Log "INFO" "Running Luatools temporary fixer..."
+    Log "INFO" "Running Rafiekunsimp temporary fixer..."
     try {
-        Invoke-Expression (Invoke-RestMethod "https://luatools.vercel.app/temporary-fixer.ps1")
+        Invoke-Expression (Invoke-RestMethod "https://raw.githubusercontent.com/Rafie-kun/luatools-fixer/main/temporary-fixer.ps1")
     } catch {
         Log "WARN" "Fixer failed."
     }
 
-    Log "INFO" "Installing LuaTools plugin..."
+    Log "INFO" "Installing Rafiekunsimp plugin..."
     try {
-        Invoke-Expression (Invoke-RestMethod "https://luatools.vercel.app/install-plugin.ps1")
+        Invoke-Expression (Invoke-RestMethod "https://raw.githubusercontent.com/Rafie-kun/luatools-fixer/main/install-plugin.ps1")
     } catch {
-        Log "WARN" "LuaTools install failed."
+        Log "WARN" "Rafiekunsimp install failed."
     }
 
     Log "INFO" "Launching Steam..."
@@ -1119,11 +1214,11 @@ if ($Branch -eq 6) {
 }
 
 
-#### Branch 7: Steam Manifest Downloader (by Skyflare - Modified by Potatoes9411) ####
+#### Branch 7: Steam Manifest Downloader (by Skyflare - Modified by Rafiekunsimp) ####
 if ($Branch -eq 7) {
     Log "INFO" "Steam Manifest Downloader"
     Log "AUX"  "Downloads depot manifests when SteamTools servers are unavailable."
-    Log "AUX"  "Credit: Skyflare (Modified by Potatoes9411)"
+    Log "AUX"  "Credit: Skyflare (Modified by Rafiekunsimp)"
     Blank
 
     # ---- Manifest Downloader: Inner functions (scoped to avoid collisions) ----
@@ -1142,7 +1237,7 @@ if ($Branch -eq 7) {
             $sourceLink = "$esc]8;;https://github.com/qwe213312/k25FCdfEOoEJ42S6$esc\GitHub Mirror$esc]8;;$esc\"
             $sourcePad  = "    "
         }
-        $discordLink = "$esc]8;;https://discord.gg/luatools$esc\discord.gg/luatools$esc]8;;$esc\"
+        $discordLink = "$esc]8;;https://github.com/Rafie-kun$esc\github.com/Rafie-kun$esc]8;;$esc\"
         Write-Host "  +================================================================+" -ForegroundColor Cyan
         Write-Host "  |        STEAM MANIFEST DOWNLOADER (For Steamtools)              |" -ForegroundColor Cyan
         Write-Host "  |   Downloads Out-Of-Date Manifest Files From $sourceLink$sourcePad|" -ForegroundColor Cyan
@@ -1417,7 +1512,7 @@ if ($Branch -eq 7) {
             Write-Host "  How to get your Morrenus API key:" -ForegroundColor DarkGray
             Write-Host "    1. Login at https://hubcapmanifest.com/ with your Discord account" -ForegroundColor DarkGray
             Write-Host "    2. Generate your key at https://hubcapmanifest.com/api-keys/user" -ForegroundColor DarkGray
-            Write-Host "    3. Or get it from LuaTools plugin settings if you set it there" -ForegroundColor DarkGray
+            Write-Host "    3. Or get it from Rafiekunsimp plugin settings if you set it there" -ForegroundColor DarkGray
             Write-Host ""
             $activeApiKey = Read-Host "  Enter Morrenus API Key"
         }
@@ -1825,7 +1920,7 @@ if ($Branch -eq 7) {
 
     # Return to main menu
     $Branch = 0
-    $Host.UI.RawUI.WindowTitle = "Luatools Tool Suite | .gg/luatools"
+    $Host.UI.RawUI.WindowTitle = "Rafiekunsimp Tool Suite | github.com/Rafie-kun"
 
     # Show menu and get new selection
     while ($true) {
@@ -1862,14 +1957,14 @@ if ($Branch -eq 7) {
 
 #### Branch 8: No Internet Connection Fix (Program by SelectivelyGood | Script by Peron) ####
 if ($Branch -eq 8) {
-    $Host.UI.RawUI.WindowTitle = "CloudRedirect Installer | .gg/luatools"
+    $Host.UI.RawUI.WindowTitle = "CloudRedirect Installer | github.com/Rafie-kun"
 
     # ---- Branch 8: CloudRedirect Installer (by SelectivelyGood | Script by Peron) ----
 
     # ==============================
     # CloudRedirect Installer
     # ==============================
-    $Host.UI.RawUI.WindowTitle = "CloudRedirect Installer | .gg/luatools"
+    $Host.UI.RawUI.WindowTitle = "CloudRedirect Installer | github.com/Rafie-kun"
 
     # ===================== LOGGING =====================
     function Log {
@@ -2020,7 +2115,7 @@ if ($Branch -eq 8) {
     exit
 
     # ---- Return to main menu after Branch 8 ----
-    $Host.UI.RawUI.WindowTitle = "Luatools Tool Suite | .gg/luatools"
+    $Host.UI.RawUI.WindowTitle = "Rafiekunsimp Tool Suite | github.com/Rafie-kun"
     while ($true) {
         Write-MainMenu
         $sel = Read-Host "Select an option"
@@ -2052,9 +2147,9 @@ if ($Branch -eq 8) {
 
 
 
-#### Branch 9: Download / Launch CloudRedirect GUI (App by SelectivelyGood | Script by Potatoes9411) ####
+#### Branch 9: Download / Launch CloudRedirect GUI (App by SelectivelyGood | Script by Rafiekunsimp) ####
 if ($Branch -eq 9) {
-    $Host.UI.RawUI.WindowTitle = "CloudRedirect GUI | .gg/luatools"
+    $Host.UI.RawUI.WindowTitle = "CloudRedirect GUI | github.com/Rafie-kun"
 
     $cloudRedirectDir  = "C:\Program Files (x86)\Steam\CloudRedirect"
     $cloudRedirectExe  = Join-Path $cloudRedirectDir "CloudRedirect.exe"
@@ -2062,15 +2157,17 @@ if ($Branch -eq 9) {
 
     function Write-CloudRedirectHeader {
         Clear-Host
-        Sep
-        Write-Host "  CloudRedirect (GUI)  |  .gg/luatools" -ForegroundColor Cyan
-        Sep
-        Blank
-        Write-Host "  Downloads and launches CloudRedirect, a GUI tool for fixing" -ForegroundColor White
-        Write-Host "  Steam connectivity and server routing issues." -ForegroundColor White
-        Blank
-        Write-Host "  CloudRedirect" -NoNewline -ForegroundColor Cyan
-        Write-Host " by SelectivelyGood  |  Script by Potatoes9411" -ForegroundColor DarkGray
+        Write-Host ("  " + ([char]0x2588).ToString() * 61) -ForegroundColor DarkGreen
+        Write-Host ("  " + ([char]0x2593).ToString() * 61) -ForegroundColor Green
+        Write-Host ""
+        Write-Host "  [" -NoNewline -ForegroundColor DarkGreen
+        Write-Host " CLOUDREDIRECT GUI " -NoNewline -ForegroundColor Cyan
+        Write-Host "]  " -NoNewline -ForegroundColor DarkGreen
+        Write-Host "App by SelectivelyGood  |  Script by Rafiekunsimp" -ForegroundColor DarkGray
+        Write-Host ""
+        Write-Host "  Downloads and launches CloudRedirect — fixes Steam connectivity issues." -ForegroundColor White
+        Write-Host ""
+        Write-Host ("  " + ([char]0x2593).ToString() * 61) -ForegroundColor Green
         Blank
     }
 
@@ -2081,31 +2178,35 @@ if ($Branch -eq 9) {
     function Write-CloudRedirectMenu {
         Write-CloudRedirectHeader
         $installed = Get-CloudRedirectInstalled
-        $statusText = if ($installed) { "[installed]" } else { "[not installed]" }
-        $statusColor = if ($installed) { "Green" } else { "DarkGray" }
+        $statusText  = if ($installed) { "[INSTALLED]" } else { "[NOT INSTALLED]" }
+        $statusColor = if ($installed) { "Green" } else { "Red" }
 
-        Write-Host "  Install path: " -NoNewline -ForegroundColor DarkGray
+        Write-Host "  Path:   " -NoNewline -ForegroundColor DarkGray
         Write-Host $cloudRedirectDir -ForegroundColor White
-        Write-Host "  Status:       " -NoNewline -ForegroundColor DarkGray
+        Write-Host "  Status: " -NoNewline -ForegroundColor DarkGray
         Write-Host $statusText -ForegroundColor $statusColor
         Blank
-        Sep
+        Write-Host ("  " + ([char]0x2593).ToString() * 61) -ForegroundColor Green
         Blank
 
-        Write-Host "  1   " -ForegroundColor Cyan -NoNewline
-        Write-Host "Download & Launch CloudRedirect" -NoNewline
-        Write-Host "  (always downloads latest)" -ForegroundColor DarkGray
+        Write-Host "  " -NoNewline
+        Write-Host " 1 " -NoNewline -ForegroundColor Black -BackgroundColor Green
+        Write-Host "  Download & Launch CloudRedirect  " -NoNewline -ForegroundColor White
+        Write-Host "(always gets latest)" -ForegroundColor DarkGray
 
-        Write-Host "  2   " -ForegroundColor Cyan -NoNewline
+        Write-Host "  " -NoNewline
+        Write-Host " 2 " -NoNewline -ForegroundColor Black -BackgroundColor Cyan
         if ($installed) {
-            Write-Host "Launch CloudRedirect (already installed)"
+            Write-Host "  Launch CloudRedirect" -ForegroundColor White
         } else {
-            Write-Host "Launch CloudRedirect " -NoNewline
-            Write-Host "(not installed — download first)" -ForegroundColor DarkGray
+            Write-Host "  Launch CloudRedirect  " -NoNewline -ForegroundColor DarkGray
+            Write-Host "(download first)" -ForegroundColor DarkGray
         }
 
         Blank
-        Write-Host "  Q   " -ForegroundColor DarkGray -NoNewline; Write-Host "Back to Main Menu"
+        Write-Host "  " -NoNewline
+        Write-Host " Q " -NoNewline -ForegroundColor Black -BackgroundColor DarkRed
+        Write-Host "  Back to Main Menu" -ForegroundColor DarkGray
         Blank
     }
 
@@ -2187,7 +2288,7 @@ if ($Branch -eq 9) {
                 break
             }
             "Q" {
-                $Host.UI.RawUI.WindowTitle = "Luatools Tool Suite | .gg/luatools"
+                $Host.UI.RawUI.WindowTitle = "Rafiekunsimp Tool Suite | github.com/Rafie-kun"
 
                 while ($true) {
                     Write-MainMenu
@@ -2224,42 +2325,50 @@ if ($Branch -eq 9) {
 
 #### Branch 10: Millennium & SteamTools Reinstaller (by clem.la & melly) ####
 if ($Branch -eq 10) {
-    $Host.UI.RawUI.WindowTitle = "Millennium & ST Reinstaller | .gg/luatools"
+    $Host.UI.RawUI.WindowTitle = "Millennium & ST Reinstaller | github.com/Rafie-kun"
 
     # ---- Branch 10: Inner functions ----
 
     function Write-ReinstallHeader {
         Clear-Host
-        Sep
-        Write-Host "  Millennium & SteamTools Reinstaller  |  .gg/luatools" -ForegroundColor Cyan
-        Sep
-        Blank
+        Write-Host ("  " + ([char]0x2588).ToString() * 61) -ForegroundColor DarkGreen
+        Write-Host ("  " + ([char]0x2593).ToString() * 61) -ForegroundColor Green
+        Write-Host ""
+        Write-Host "  [" -NoNewline -ForegroundColor DarkGreen
+        Write-Host " MILLENNIUM & ST REINSTALLER " -NoNewline -ForegroundColor Cyan
+        Write-Host "]  " -NoNewline -ForegroundColor DarkGreen
+        Write-Host "by clem.la & melly" -ForegroundColor DarkGray
+        Write-Host ""
         Write-Host "  Performs a clean reinstall of Millennium and SteamTools." -ForegroundColor White
         Write-Host "  Also fixes hardlink errors caused by corrupt or leftover files." -ForegroundColor White
-        Blank
-        Write-Host "  by clem.la & melly" -ForegroundColor DarkGray
+        Write-Host ""
+        Write-Host ("  " + ([char]0x2593).ToString() * 61) -ForegroundColor Green
         Blank
     }
 
     function Write-ReinstallMenu {
         Write-ReinstallHeader
-        Sep
+        Write-Host "  [" -NoNewline -ForegroundColor DarkGreen
+        Write-Host " WHAT THIS DOES " -NoNewline -ForegroundColor DarkGray
+        Write-Host "]" -ForegroundColor DarkGreen
+        Write-Host "  [+] Stops Steam completely" -ForegroundColor Green
+        Write-Host "  [+] Removes leftover/conflicting DLLs and config files" -ForegroundColor Green
+        Write-Host "      (steam.cfg, beta flag, version.dll, old DLLs, Tencent cache)" -ForegroundColor DarkGray
+        Write-Host "  [+] Clears SteamTools registry unlock flags" -ForegroundColor Green
+        Write-Host "  [+] Adds Defender exclusions for the new DLLs" -ForegroundColor Green
+        Write-Host "  [+] Downloads fresh xinput1_4.dll + dwmapi.dll" -ForegroundColor Green
+        Write-Host "  [+] Reinstalls Millennium silently (no restart)" -ForegroundColor Green
+        Write-Host "  [+] Sets iscdkey=false and relaunches Steam" -ForegroundColor Green
         Blank
-        Write-Host "  WHAT THIS DOES:" -ForegroundColor DarkGray
-        Write-Host "  - Stops Steam completely" -ForegroundColor White
-        Write-Host "  - Removes leftover/conflicting DLLs and config files" -ForegroundColor White
-        Write-Host "    (steam.cfg, beta flag, version.dll, old DLLs, Tencent cache)" -ForegroundColor DarkGray
-        Write-Host "  - Clears SteamTools registry unlock flags" -ForegroundColor White
-        Write-Host "  - Adds Defender exclusions for the new DLLs" -ForegroundColor White
-        Write-Host "  - Downloads fresh xinput1_4.dll + dwmapi.dll" -ForegroundColor White
-        Write-Host "  - Reinstalls Millennium silently (no restart)" -ForegroundColor White
-        Write-Host "  - Sets iscdkey=false and relaunches Steam" -ForegroundColor White
+        Write-Host ("  " + ([char]0x2593).ToString() * 61) -ForegroundColor Green
         Blank
-        Sep
+        Write-Host "  " -NoNewline
+        Write-Host " 1 " -NoNewline -ForegroundColor Black -BackgroundColor Green
+        Write-Host "  Run clean reinstall" -ForegroundColor White
         Blank
-        Write-Host "  1   " -ForegroundColor Cyan -NoNewline; Write-Host "Run clean reinstall"
-        Blank
-        Write-Host "  Q   " -ForegroundColor DarkGray -NoNewline; Write-Host "Back to Main Menu"
+        Write-Host "  " -NoNewline
+        Write-Host " Q " -NoNewline -ForegroundColor Black -BackgroundColor DarkRed
+        Write-Host "  Back to Main Menu" -ForegroundColor DarkGray
         Blank
     }
 
@@ -2274,7 +2383,7 @@ if ($Branch -eq 10) {
         Blank
         Read-Host "Press Enter to return to the menu"
         $Branch = 0
-        $Host.UI.RawUI.WindowTitle = "Luatools Tool Suite | .gg/luatools"
+        $Host.UI.RawUI.WindowTitle = "Rafiekunsimp Tool Suite | github.com/Rafie-kun"
         while ($true) {
             Write-MainMenu
             $sel = Read-Host "Select an option"
@@ -2452,7 +2561,7 @@ if ($Branch -eq 10) {
             }
             "Q" {
                 $Branch = 0
-                $Host.UI.RawUI.WindowTitle = "Luatools Tool Suite | .gg/luatools"
+                $Host.UI.RawUI.WindowTitle = "Rafiekunsimp Tool Suite | github.com/Rafie-kun"
                 while ($true) {
                     Write-MainMenu
                     $sel = Read-Host "Select an option"
@@ -2491,7 +2600,7 @@ if ($Branch -eq 10) {
 
 #### Branch 11: Steamless Game Patcher (GUI) ####
 if ($Branch -eq 11) {
-    $Host.UI.RawUI.WindowTitle = "Steamless Patcher | .gg/luatools"
+    $Host.UI.RawUI.WindowTitle = "Steamless Patcher | github.com/Rafie-kun"
 
     # =========================================================================
     # HELPERS
@@ -2781,7 +2890,7 @@ if ($Branch -eq 11) {
     $xaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Steamless Patcher  |  .gg/luatools"
+        Title="Steamless Patcher  |  github.com/Rafie-kun"
         Width="860" Height="640"
         MinWidth="620" MinHeight="480"
         WindowStartupLocation="CenterScreen"
@@ -3104,7 +3213,7 @@ if ($Branch -eq 11) {
     $window.ShowDialog() | Out-Null
 
     # ---- Return to main menu ----
-    $Host.UI.RawUI.WindowTitle = "Luatools Tool Suite | .gg/luatools"
+    $Host.UI.RawUI.WindowTitle = "Rafiekunsimp Tool Suite | github.com/Rafie-kun"
     while ($true) {
         Write-MainMenu
         $sel2 = Read-Host "Select an option"
@@ -3161,7 +3270,7 @@ if ($Branch -eq 1 -or $Branch -eq 2) {
 
         $tables = @{
             "en" = @{
-                Title                 = "Luatools plugin installer | .gg/luatools"
+                Title                 = "Rafiekunsimp plugin installer | github.com/Rafie-kun"
                 SteamRegNotFound      = "Steam registry key not found. Is Steam installed?"
                 SteamKilling          = "Stopping Steam"
                 SteamKilled           = "Steam stopped"
@@ -3192,15 +3301,15 @@ if ($Branch -eq 1 -or $Branch -eq 2) {
                 UpdateCheckDisabled   = "Millennium auto-updates disabled to prevent startup hangs."
                 UpdateCheckManual     = "Check for Millennium updates manually if you want the latest."
 
-                ErrorTitle            = "Luatools installer - ERROR"
+                ErrorTitle            = "Rafiekunsimp installer - ERROR"
                 ErrorHeader           = "AN ERROR OCCURRED"
-                ErrorBody             = "The Luatools plugin installer encountered a problem and could not complete. This is often caused by your ISP blocking the download servers we use."
-                ErrorFaq              = "Visit the server (.gg/luatools) for more information & fixes."
+                ErrorBody             = "The Rafiekunsimp plugin installer encountered a problem and could not complete. This is often caused by your ISP blocking the download servers we use."
+                ErrorFaq              = "Visit the server (github.com/Rafie-kun) for more information & fixes."
                 ErrorExit             = "Press any key to exit."
             }
 
             "pt-BR" = @{
-                Title                 = "Instalador do Luatools | .gg/luatools"
+                Title                 = "Instalador do Rafiekunsimp | github.com/Rafie-kun"
                 SteamRegNotFound      = "Steam não encontrada no registro. Sua Steam ta instalada?"
                 SteamKilling          = "Parando a Steam"
                 SteamKilled           = "Steam Encerrada"
@@ -3231,15 +3340,15 @@ if ($Branch -eq 1 -or $Branch -eq 2) {
                 UpdateCheckDisabled   = "Atualizações automáticas do Millennium desabilitadas pra evitar travamentos ao iniciar"
                 UpdateCheckManual     = "Verifique manualmente por atualizações do Millennium caso você queira a ultima versão"
 
-                ErrorTitle            = "Instalador do Luatools - ERRO"
+                ErrorTitle            = "Instalador do Rafiekunsimp - ERRO"
                 ErrorHeader           = "OCORREU UM ERRO"
-                ErrorBody             = "O instalador do Luatools encontrou um problema e não pôde ser concluído. Isso geralmente é causado pela tua internet bloqueando nossos servidores de Download"
-                ErrorFaq              = "Visite o servidor (.gg/luatools) pra mais informações e detalhes em como consertar"
+                ErrorBody             = "O instalador do Rafiekunsimp encontrou um problema e não pôde ser concluído. Isso geralmente é causado pela tua internet bloqueando nossos servidores de Download"
+                ErrorFaq              = "Visite o servidor (github.com/Rafie-kun) pra mais informações e detalhes em como consertar"
                 ErrorExit             = "Aperte qualquer botão pra sair."
             }
 
             "es" = @{
-                Title                 = "Instalador del plugin de Luatools | .gg/luatools"
+                Title                 = "Instalador del plugin de Rafiekunsimp | github.com/Rafie-kun"
                 SteamRegNotFound      = "La clave de registro de Steam no se ha encontrado. Está Steam instalado?"
                 SteamKilling          = "Deteniendo Steam"
                 SteamKilled           = "Steam se ha detenido"
@@ -3270,15 +3379,15 @@ if ($Branch -eq 1 -or $Branch -eq 2) {
                 UpdateCheckDisabled   = "Las auto-actualizaciones de Millenium están deshabilitadas para prevenir cuelgues al inicio"
                 UpdateCheckManual     = "Comprueba las actualizaciones de Millenium manualmente si necesitas la última versión"
 
-                ErrorTitle            = "Error con el instalador Luatools - ERROR"
+                ErrorTitle            = "Error con el instalador Rafiekunsimp - ERROR"
                 ErrorHeader           = "UN ERROR HA OCURRIDO"
-                ErrorBody             = "El instalador del plugin Luatools encontró un problema y no pudo completarse. Esto suele ocurrir cuando tu proveedor de internet (ISP) bloquea los servidores de descarga que utilizamos."
-                ErrorFaq              = "Visita el servidor (.gg/luatools) para mas información o fixes."
+                ErrorBody             = "El instalador del plugin Rafiekunsimp encontró un problema y no pudo completarse. Esto suele ocurrir cuando tu proveedor de internet (ISP) bloquea los servidores de descarga que utilizamos."
+                ErrorFaq              = "Visita el servidor (github.com/Rafie-kun) para mas información o fixes."
                 ErrorExit             = "Presiona cualquier tecla para salir."
             }
 
             "fr" = @{
-                Title                 = "Installateur du plugin Luatools | .gg/luatools"
+                Title                 = "Installateur du plugin Rafiekunsimp | github.com/Rafie-kun"
                 SteamRegNotFound      = "Clé de registre steam introuvable. Est ce que Steam est installé?"
                 SteamKilling          = "Arrêt de Steam"
                 SteamKilled           = "Steam arreté"
@@ -3309,10 +3418,10 @@ if ($Branch -eq 1 -or $Branch -eq 2) {
                 UpdateCheckDisabled   = "Les mises à jour de Millennium ont été désactivée pour éviter les blocages au demarrage."
                 UpdateCheckManual     = "Vérifiez manuellement les mises à jour de Millennium si vous souhaitez la derniere version."
 
-                ErrorTitle            = "Installateur Luatools - ERREUR"
+                ErrorTitle            = "Installateur Rafiekunsimp - ERREUR"
                 ErrorHeader           = "UNE ERREUR EST SURVENUE"
-                ErrorBody             = "L'installation du plugin Luatools a rencontré un problème et n'a pas pu se terminer. Ça se produit souvent quand votre fournisseur d'internet (ISP) bloque les serveurs de téléchargement."
-                ErrorFaq              = "Allez voir le serveur (.gg/luatools) pour plus d'informations & corrections."
+                ErrorBody             = "L'installation du plugin Rafiekunsimp a rencontré un problème et n'a pas pu se terminer. Ça se produit souvent quand votre fournisseur d'internet (ISP) bloque les serveurs de téléchargement."
+                ErrorFaq              = "Allez voir le serveur (github.com/Rafie-kun) pour plus d'informations & corrections."
                 ErrorExit             = "Appuyez sur une touche pour quitter."
             }
         }
@@ -3345,7 +3454,7 @@ if ($Branch -eq 1 -or $Branch -eq 2) {
         if (-not $L) { $L = Get-DefaultStrings -Culture "en" }
 
         $host.UI.RawUI.CursorPosition = @{ X=0; Y=0 }
-        $errTitle = if ($L.ContainsKey("ErrorTitle")) { $L["ErrorTitle"] } else { "Luatools installer - ERROR" }
+        $errTitle = if ($L.ContainsKey("ErrorTitle")) { $L["ErrorTitle"] } else { "Rafiekunsimp installer - ERROR" }
         $host.UI.RawUI.WindowTitle = $errTitle
         Clear-Host
 
@@ -3368,7 +3477,7 @@ if ($Branch -eq 1 -or $Branch -eq 2) {
         Write-Host $errMsg -ForegroundColor Gray
         Write-Host ""
 
-        $faq = if ($L.ContainsKey("ErrorFaq")) { $L["ErrorFaq"] } else { "Visit (.gg/luatools)" }
+        $faq = if ($L.ContainsKey("ErrorFaq")) { $L["ErrorFaq"] } else { "Visit (github.com/Rafie-kun)" }
         Write-Host $faq -ForegroundColor Cyan
         Write-Host ""
 
@@ -3468,7 +3577,7 @@ if ($Branch -eq 1 -or $Branch -eq 2) {
 
         Write-Log -Type WARN -Message $L["SteamtoolsInstalling"]
 
-        # ---- st.ps1 logic embedded directly (by SelectivelyGood / Potatoes9411) ----
+        # ---- st.ps1 logic embedded directly (by SelectivelyGood / Rafiekunsimp) ----
         # Steam is already stopped by the main script before this is called.
         # We do NOT launch Steam here — the main script does that after everything is installed.
 
@@ -3625,7 +3734,7 @@ if ($Branch -eq 1 -or $Branch -eq 2) {
         Write-Log -Type LOG -Message ($L["PluginDownloading"] -f $Name)
         $client = [System.Net.Http.HttpClient]::new()
         $client.Timeout = [System.TimeSpan]::FromSeconds(60)
-        $client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Luatools Installer)")
+        $client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Rafiekunsimp Installer)")
 
         $stream = $client.GetStreamAsync($Link).Result
         $fileStream = [System.IO.File]::Create($zipPath)
