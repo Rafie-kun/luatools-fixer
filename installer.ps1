@@ -78,7 +78,7 @@ $Translations = @{
         "Spacetheme Block Remover             " = "Spacetheme Block Remover             "
         "Removes the 'get a job loser' block  " = "Removes the 'get a job loser' block  "
         "by waike" = "by waike"
-        "Steam Offline Fix" = "Steam Offline Fix"
+        "Steam Offline Fix" = "Steam Offline/Infinite Loading Fix"
         "Fixes Steam stuck on loading icon    " = "Fixes Steam stuck on loading icon    "
         "Steam Bulk Fixer" = "Steam Bulk Fixer"
         "Runs various Steam/Steamtools fixes  " = "Runs various Steam/Steamtools fixes  "
@@ -130,7 +130,7 @@ $Translations = @{
         "Spacetheme Block Remover             " = "Удаление блока Spacetheme            "
         "Removes the 'get a job loser' block  " = "Удаляет блок 'get a job loser'       "
         "by waike" = "от waike"
-        "Steam Offline Fix" = "Исправление офлайн-режима Steam"
+        "Steam Offline Fix" = "Исправление офлайн-режима/бесконечной загрузки Steam"
         "Fixes Steam stuck on loading icon    " = "Исправляет зависание Steam на загрузке"
         "Steam Bulk Fixer" = "Массовый фиксер Steam"
         "Runs various Steam/Steamtools fixes  " = "Запускает различные исправления Steam/Steamtools"
@@ -182,7 +182,7 @@ $Translations = @{
         "Spacetheme Block Remover             " = "Suppresseur de bloc Spacetheme       "
         "Removes the 'get a job loser' block  " = "Supprime le bloc 'get a job loser'   "
         "by waike" = "par waike"
-        "Steam Offline Fix" = "Correctif hors ligne Steam"
+        "Steam Offline Fix" = "Correctif hors ligne/chargement infini Steam"
         "Fixes Steam stuck on loading icon    " = "Corrige Steam bloqué sur l'icône de chargement"
         "Steam Bulk Fixer" = "Correctif global Steam"
         "Runs various Steam/Steamtools fixes  " = "Exécute divers correctifs Steam/Steamtools"
@@ -232,7 +232,7 @@ $Translations = @{
         "Install Rafiekunsimp plugin" = "Instalar plugin de Rafiekunsimp"
         "Install steamtools-collection" = "Instalar steamtools-collection"
         "Spacetheme Block Remover" = "Eliminador de bloqueo Spacetheme"
-        "Steam Offline Fix" = "Arreglo de Steam sin conexión"
+        "Steam Offline Fix" = "Arreglo de Steam sin conexión/carga infinita"
         "Steam Bulk Fixer" = "Arreglo masivo de Steam"
         "ST Uninstaller" = "Desinstalador ST"
         "Steam Manifest Downloader" = "Descargador de manifiestos de Steam"
@@ -311,7 +311,7 @@ $Translations = @{
         "Install Rafiekunsimp plugin" = "Instalar plugin Rafiekunsimp"
         "Install steamtools-collection" = "Instalar steamtools-collection"
         "Spacetheme Block Remover" = "Removedor de bloqueio Spacetheme"
-        "Steam Offline Fix" = "Correção de Steam offline"
+        "Steam Offline Fix" = "Correção de Steam offline/carregamento infinito"
         "Steam Bulk Fixer" = "Corretor em massa do Steam"
         "ST Uninstaller" = "Desinstalador ST"
         "Steam Manifest Downloader" = "Baixador de manifestos do Steam"
@@ -740,13 +740,18 @@ function Write-MainMenu {
 
     Write-Host "  " -NoNewline
     Write-Host " 4 " -NoNewline -ForegroundColor Black -BackgroundColor Yellow
-    Write-Host "  Steam Offline Fix            " -NoNewline -ForegroundColor White
-    Write-Host "by waike" -ForegroundColor DarkGray
+    Write-Host "  Steam Offline/Inf. Loading Fix" -NoNewline -ForegroundColor White
+    Write-Host "  by waike" -ForegroundColor DarkGray
 
     Write-Host "  " -NoNewline
     Write-Host " 6 " -NoNewline -ForegroundColor Black -BackgroundColor Yellow
     Write-Host "  Steam Bulk Fixer             " -NoNewline -ForegroundColor White
     Write-Host "by waike" -ForegroundColor DarkGray
+
+    Write-Host "  " -NoNewline
+    Write-Host " 12" -NoNewline -ForegroundColor Black -BackgroundColor Yellow
+    Write-Host "  Steamless Error 54 Fix       " -NoNewline -ForegroundColor White
+    Write-Host "by Peron4TheWin" -ForegroundColor DarkGray
 
     # ── OTHER section ──
     Blank
@@ -817,6 +822,7 @@ if (-not $Branch) {
             "9" { $Branch = 9; break }
             "10" { $Branch = 10; break }
             "11" { $Branch = 11; break }
+            "12" { $Branch = 12; break }
             "L" { Set-Language; continue }
             "Q" { exit 0 }
             default { continue }
@@ -3374,9 +3380,51 @@ if ($Branch -eq 11) {
 }
 
 
+#### Branch 12: Steamless Error 54 Fix (by Peron4TheWin) ####
+if ($Branch -eq 12) {
+    $Host.UI.RawUI.WindowTitle = "Steamless Error 54 Fix | github.com/Rafie-kun"
+    Clear-Host
+    Write-Host ("  " + ([char]0x2588).ToString() * 61) -ForegroundColor DarkGreen
+    Write-Host ("  " + ([char]0x2593).ToString() * 61) -ForegroundColor Green
+    Write-Host ""
+    Write-Host "  [" -NoNewline -ForegroundColor DarkGreen
+    Write-Host " STEAMLESS ERROR 54 FIX " -NoNewline -ForegroundColor Yellow
+    Write-Host "]  " -NoNewline -ForegroundColor DarkGreen
+    Write-Host "by Peron4TheWin" -ForegroundColor DarkGray
+    Write-Host ""
+    Write-Host "  Runs the Steamless patcher for a specific game to fix Error 54." -ForegroundColor White
+    Write-Host "  Example AppID: " -NoNewline -ForegroundColor White
+    Write-Host "1672970" -ForegroundColor Green
+    Write-Host ""
+    Write-Host ("  " + ([char]0x2593).ToString() * 61) -ForegroundColor Green
+    Blank
+
+    $appId = Ask "Enter the AppID of the game"
+    $appId = $appId.Trim()
+
+    if ($appId -notmatch '^\d+$') {
+        Log "ERR" "Invalid AppID — must be numbers only."
+        Blank
+        Read-Host "Press Enter to go back"
+        continue MainLoop
+    }
+
+    Log "INFO" "Running Steamless Error 54 fix for AppID $appId..."
+    Blank
+    try {
+        & ([scriptblock]::Create((Invoke-RestMethod "https://raw.githubusercontent.com/Peron4TheWin/ps1collection/refs/heads/main/steamless.ps1"))) -AppId $appId
+        Log "OK" "Steamless Error 54 fix finished."
+    } catch {
+        Log "ERR" "Steamless Error 54 fix failed: $($_.Exception.Message)"
+    }
+
+    Blank
+    Read-Host "Press Enter to go back"
+    continue MainLoop
+}
 
 
-#### Plugin install flow (branches 1 & 2) ####
+
 
 if ($Branch -eq 1 -or $Branch -eq 2) {
 
